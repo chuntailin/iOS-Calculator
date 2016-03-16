@@ -9,10 +9,12 @@
 import UIKit
 
 class ViewController: UIViewController {
-
+    
     @IBOutlet weak var display: UILabel!
     
+    var tempArray = [String]()
     var temp :Double = 0
+    var operatorArray = [String]()
     var operateSign = ""
     
     @IBAction func appendNumber(sender: AnyObject) {
@@ -23,6 +25,9 @@ class ViewController: UIViewController {
     
     @IBAction func clear(sender: AnyObject) {
         display.text?.removeAll()
+        tempArray = []
+        operatorArray = []
+        temp = 0
     }
     
     @IBAction func changeSign(sender: AnyObject) {
@@ -43,36 +48,43 @@ class ViewController: UIViewController {
     
     @IBAction func operate(sender: AnyObject) {
         operateSign = sender.currentTitle!!
-        temp = Double(display.text!)!
+        tempArray.append(display.text!)
+        operatorArray.append(operateSign)
         display.text = ""
-
+        
     }
     
     @IBAction func equal(sender: AnyObject) {
-        var result :Double = 0
         var currentTitle = display.text!
-
-            if operateSign == "+"{
-                result = temp + Double(currentTitle)!
-                operateSign = ""
-            }else if operateSign == "−"{
-                result = temp - Double(currentTitle)!
-                operateSign = ""
-            }else if operateSign == "×"{
-                result = temp * Double(currentTitle)!
-                operateSign = ""
-            }else if operateSign == "÷"{
-                result = temp / Double(currentTitle)!
-                operateSign = ""
-        }
+        tempArray.append(currentTitle)
         
-        display.text = String(result)
+        if tempArray.count > 0 {
+            temp = Double(tempArray.first!)!
+            tempArray.removeAtIndex(tempArray.startIndex)
+            
+            for(var i=0 ; i<tempArray.count; i++){
+                if operatorArray[i] == "+"{
+                    temp = temp + Double(tempArray[i])!
+                }else if operatorArray[i] == "−"{
+                    temp = temp - Double(tempArray[i])!
+                }else if operatorArray[i] == "×"{
+                    temp = temp * Double(tempArray[i])!
+                }else if operatorArray[i] == "÷"{
+                    temp = temp / Double(tempArray[i])!
+                }
+            }
+        }
+        display.text = String(temp)
+        tempArray = []
+        operatorArray = []
+        temp = 0
+
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
     }
-
+    
 }
 
