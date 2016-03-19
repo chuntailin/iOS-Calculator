@@ -74,11 +74,15 @@ class ViewController: UIViewController {
                 }
             }
         }
-        if String(temp).containsString(".0") {
-            display.text = String(temp).stringByReplacingOccurrencesOfString(".0", withString: "")
+        
+        let resultString = String(temp)
+        
+        if resultString[resultString.endIndex.advancedBy(-1)] == "0" && resultString[resultString.endIndex.advancedBy(-2)] == "." {
+                display.text = resultString.stringByReplacingOccurrencesOfString(".0", withString: "")
         }else {
-            display.text = String(temp)
+            display.text = resultString
         }
+        
         
         tempArray = []
         operatorArray = []
