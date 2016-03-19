@@ -18,9 +18,7 @@ class ViewController: UIViewController {
     var operateSign = ""
     
     @IBAction func appendNumber(sender: AnyObject) {
-        sender.layer.borderWidth = 1
-        sender.layer.borderColor = UIColor.blackColor().CGColor
-        if let number = sender.currentTitle{
+            if let number = sender.currentTitle {
             display.text = display.text! + number!
         }
     }
@@ -37,7 +35,7 @@ class ViewController: UIViewController {
         
         if ((display.text?.containsString(searchCharacter)) == true){
             display.text?.removeAtIndex((display.text?.startIndex)!)
-        }else{
+        }else {
             display.text?.insert("-", atIndex: (display.text?.startIndex)!)
         }
     }
@@ -76,7 +74,12 @@ class ViewController: UIViewController {
                 }
             }
         }
-        display.text = String(temp)
+        if String(temp).containsString(".0") {
+            display.text = String(temp).stringByReplacingOccurrencesOfString(".0", withString: "")
+        }else {
+            display.text = String(temp)
+        }
+        
         tempArray = []
         operatorArray = []
         temp = 0
